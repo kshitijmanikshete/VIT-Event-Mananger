@@ -15,8 +15,9 @@
         nav {
             background-color: #333;
             color: #fff;
-            padding: 1rem;
+            padding: 1.5rem; /* Increased padding */
             text-align: center;
+            font-size: 1.2rem; /* Increased font size */
         }
         nav a {
             color: #fff;
@@ -36,7 +37,11 @@
         section.active {
             display: block;
         }
-        h1, h2 {
+        h1 {
+            color: #333;
+            font-size: 2.5rem; /* Increased font size */
+        }
+        h2 {
             color: #333;
         }
         form {
@@ -113,6 +118,7 @@
     <main>
         <section id="home" class="active">
             <h1>Welcome to the Event Management System</h1>
+            <h2>Upcoming Events</h2>
             <ul id="event-titles"></ul>
         </section>
 
@@ -147,6 +153,7 @@
                 <textarea id="update-event-description" placeholder="Description" required></textarea>
                 <input type="file" id="update-event-photo" accept="image/*">
                 <button type="submit">Update Event</button>
+                <button type="button" id="delete-event-button" class="delete-button">Delete Event</button>
             </form>
         </section>
 
@@ -234,15 +241,9 @@
                     <p>Venue: ${eventVenue}</p>
                     <p>Organizing Club: ${eventClub}</p>
                     <p>Description: ${eventDescription}</p>
-                    <button class="delete-button">Delete</button>
                     <button class="update-button">Update</button>
                 `;
                 eventsList.appendChild(newEvent);
-
-                newEvent.querySelector('.delete-button').addEventListener('click', () => {
-                    eventsList.removeChild(newEvent);
-                    eventTitles.removeChild(newTitle);
-                });
 
                 newEvent.querySelector('.update-button').addEventListener('click', () => {
                     if (isAuthenticated) {
@@ -304,6 +305,18 @@
             document.getElementById('update-event-form').reset();
         });
 
+        document.getElementById('delete-event-button').addEventListener('click', function() {
+            if (currentEvent) {
+                const eventsList = document.getElementById('events-list');
+                const eventTitles = document.getElementById('event-titles');
+                eventsList.removeChild(currentEvent);
+                const eventTitle = Array.from(eventTitles.children).find(title => title.textContent === currentEvent.querySelector('h3').textContent);
+                eventTitles.removeChild(eventTitle);
+                alert('Event deleted successfully!');
+                showSection('events');
+            }
+        });
+
         function displayEvents() {
             const eventsList = document.getElementById('events-list');
             const eventTitles = document.getElementById('event-titles');
@@ -343,15 +356,9 @@
                     <p>Venue: ${event.venue}</p>
                     <p>Organizing Club: ${event.club}</p>
                     <p>Description: ${event.description}</p>
-                    <button class="delete-button">Delete</button>
                     <button class="update-button">Update</button>
                 `;
                 eventsList.appendChild(newEvent);
-
-                newEvent.querySelector('.delete-button').addEventListener('click', () => {
-                    eventsList.removeChild(newEvent);
-                    eventTitles.removeChild(newTitle);
-                });
 
                 newEvent.querySelector('.update-button').addEventListener('click', () => {
                     if (isAuthenticated) {
@@ -381,4 +388,3 @@
     </script>
 </body>
 </html>
-
