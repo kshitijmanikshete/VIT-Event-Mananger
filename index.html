@@ -156,21 +156,12 @@
                 <button type="button" id="delete-event-button" class="delete-button">Delete Event</button>
             </form>
         </section>
-        
-        <section id="register" class="hidden">
-            <h2>Register</h2>
-            <form id="register-form">
-                <input type="text" id="register-username" placeholder="Username" required>
-                <input type="password" id="register-password" placeholder="Password" required>
-                <button type="submit">Register</button>
-            </form>
-        </section>
 
         <section id="login" class="hidden">
             <h2>Login</h2>
-            <form id="login-form" method="post" action="/api/users">
-                <input type="text" id="username" placeholder="Username" name="name" required>
-                <input type="password" id="password" placeholder="Password" name="email" required>
+            <form id="login-form">
+                <input type="text" id="username" placeholder="Username" required>
+                <input type="password" id="password" placeholder="Password" required>
                 <button type="submit">Login</button>
             </form>
         </section>
@@ -210,57 +201,6 @@
                 alert('Invalid username or password.');
             }
         });
-
-        document.getElementById('register-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const username = document.getElementById('register-username').value;
-    const password = document.getElementById('register-password').value;
-
-    fetch('http://localhost:5000/register', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Registration successful! Please log in.');
-            showSection('login');
-        } else {
-            alert(data.message);
-        }
-    });
-});
-
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-
-    fetch('http://localhost:5000/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username, password })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            isAuthenticated = true;
-            localStorage.setItem('isAuthenticated', 'true');
-            alert('Login successful!');
-            updateNavLinks();
-            showSection('home');
-        } else {
-            alert('Invalid username or password.');
-        }
-    });
-});
-
-document.getElementById('register-link').addEventListener('click', () => showSection('register'));
 
         document.getElementById('logout-link').addEventListener('click', function(event) {
             event.preventDefault();
@@ -385,22 +325,22 @@ document.getElementById('register-link').addEventListener('click', () => showSec
 
             const events = [
                 {
-                    name: 'Tech Talk',
-                    date: '2023-10-01',
-                    time: '10:00',
-                    venue: 'Auditorium',
-                    club: 'Tech Club',
-                    description: 'A talk on the latest in technology.',
-                    photo: 'path/to/photo1.jpg'
+                    name: 'Devjams',
+                    date: '2024-09-20',
+                    time: '9:00',
+                    venue: 'Anna Auditorium',
+                    club: 'Google Developer Student Clubs',
+                    description: 'DevJams\'24 is the flagship hackathon organized by Google Developer Student Clubs VIT, offering a promising opportunity for tech enthusiasts nationwide to bring any and all of their ideas to life.',
+                    photo: ''
                 },
                 {
-                    name: 'Art Exhibition',
+                    name: 'C',
                     date: '2023-10-05',
                     time: '14:00',
                     venue: 'Art Gallery',
                     club: 'Art Club',
                     description: 'An exhibition showcasing student artwork.',
-                    photo: 'path/to/photo2.jpg'
+                    photo: 'C:/Users/kshit/Downloads/WhatsApp Image 2024-09-20 at 17.25.32_b73ab229.jpg'
                 }
             ];
 
