@@ -1,4 +1,4 @@
-from flask import Flask, request, redirect, render_template_string
+from flask import Flask, request, render_template, redirect, url_for
 import sqlite3
 
 app = Flask(__name__)
@@ -23,77 +23,18 @@ def validate_user(username, password):
 # Route for displaying the login form
 @app.route('/')
 def index():
-    return '''
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Login Form</title>
-        </head>
-        <body>
-            <h2>Login Form</h2>
-            <form action="/login" method="post">
-                <label for="username">Username:</label><br>
-                <input type="text" id="username" name="username" required><br><br>
-                
-                <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" required><br><br>
-                
-                <input type="submit" value="Login">
-            </form>
-        </body>
-        </html>
-    '''
+    return render_template('index.html')
 
-# Route to handle login logic
+# Route for handling login form submission
 @app.route('/login', methods=['POST'])
 def login():
     username = request.form['username']
     password = request.form['password']
-    
-    # Validate username and password against the database
     user = validate_user(username, password)
-    
     if user:
-        # If user exists in the database
-        return '''
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Login Success</title>
-            </head>
-            <body>
-                <h2>Logged in successfully!</h2>
-            </body>
-            </html>
-        '''
+        return "Login successful!"
     else:
-        # If the username or password is incorrect
-        return '''
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Login Failed</title>
-            </head>
-            <body>
-                <h2>Wrong username or password. Please try again.</h2>
-                <form action="/login" method="post">
-                    <label for="username">Username:</label><br>
-                    <input type="text" id="username" name="username" required><br><br>
-                    
-                    <label for="password">Password:</label><br>
-                    <input type="password" id="password" name="password" required><br><br>
-                    
-                    <input type="submit" value="Login">
-                </form>
-            </body>
-            </html>
-        '''
+        return "Invalid username or password", 401
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
